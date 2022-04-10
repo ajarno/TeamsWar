@@ -20,20 +20,26 @@
         promo ?
       </h1>
       <div
-        class="w-full bg-gradient-to-l from-white/5 to-white/50 rounded-full h-5"
+        class="relative w-full leading-tight font-medium text-white  bg-gradient-to-l from-black/10 to-white/10 rounded-full h-5"
         :class="secondTeam.bgColor"
       >
+        <span class="absolute w-full pr-3 text-right">{{ secondTeam.score }}</span>
         <div
-          class="bg-gradient-to-r h-5 from-white/5 to-white/20 rounded-l-full transition-all duration-500"
-          :class="firstTeam.bgColor"
-          :style="percentageFirst"
-        ></div>
+          class="bg-gradient-to-r h-5 from-white/5 to-white/20 transition-all duration-500 text-left pl-3"
+          :class="
+            (percentageFirst > 90 ? 'rounded-full ' : 'rounded-l-full ') +
+            firstTeam.bgColor
+          "
+          :style="percentageFirstWidth"
+        >
+          {{ firstTeam.score }}
+        </div>
       </div>
-      <div class="w-full flex mt-10">
+      <div class="w-full flex flex-wrap-reverse mt-12">
         <div
           class="w-10/12 md:w-2/5 lg:w-1/3 opacity-80 hover:opacity-90 tansition-all duration-500 bg-gray-50 text-gray-700 font-bold leading-none tracking-normal md:tracking-tight px-5 py-7 h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden"
         >
-          <div class="flex flex-col space-y-4">
+          <div class="flex flex-col space-y-5">
             <div
               v-for="team in teams"
               :key="team.label"
@@ -45,14 +51,20 @@
             </div>
           </div>
         </div>
-        <div class="w-10/12 md:w-3/5 lg:w-2/3 order-first md:order-none text-right">
-          <div
-            v-if="winner !== null"
-            class="text-transparent bg-clip-text bg-gradient-to-br from-transparent to-black/10 text-5xl font-extrabold leading-none tracking-normal md:text-8xl md:tracking-tight"
-            :class="winnerColor"
+        <div class="w-10/12 md:w-3/5 lg:w-2/3 text-right mb-5 md:mb-0">
+          <transition
+            enter-active-class="animate__animated animate__tada"
+            leave-active-class="animate__animated animate__bounceOut"
           >
-            {{ winner.label }}
-          </div>
+            <div
+              v-if="winner !== null"
+              animate__zoomOutUp
+              class="text-transparent bg-clip-text bg-gradient-to-br from-transparent to-black/10 text-5xl font-extrabold leading-none tracking-normal md:text-8xl md:tracking-tight"
+              :class="winnerColor"
+            >
+              {{ winner.label }}
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -107,10 +119,10 @@ export default {
       }, 0)
     },
     percentageFirst() {
-      const percentage = Math.round(
-        (this.firstTeam.score / this.totalVotes) * 100
-      )
-      return `width: ${percentage}%`
+      return Math.round((this.firstTeam.score / this.totalVotes) * 100)
+    },
+    percentageFirstWidth() {
+      return `width: ${this.percentageFirst}%`
     },
   },
 }
