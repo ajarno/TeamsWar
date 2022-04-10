@@ -20,10 +20,12 @@
         promo ?
       </h1>
       <div
-        class="relative w-full leading-tight font-medium text-white  bg-gradient-to-l from-black/10 to-white/10 rounded-full h-5"
+        class="relative w-full leading-tight font-medium text-white bg-gradient-to-l from-black/10 to-white/10 rounded-full h-5"
         :class="secondTeam.bgColor"
       >
-        <span class="absolute w-full pr-3 text-right">{{ secondTeam.score }}</span>
+        <span class="absolute w-full pr-3 text-right">{{
+          secondTeam.score
+        }}</span>
         <div
           class="bg-gradient-to-r h-5 from-white/5 to-white/20 transition-all duration-500 text-left pl-3"
           :class="
@@ -56,13 +58,16 @@
             enter-active-class="animate__animated animate__tada"
             leave-active-class="animate__animated animate__bounceOut"
           >
-            <div
-              v-if="winner !== null"
-              animate__zoomOutUp
-              class="text-transparent bg-clip-text bg-gradient-to-br from-transparent to-black/10 text-5xl font-extrabold leading-none tracking-normal md:text-8xl md:tracking-tight"
-              :class="winnerColor"
-            >
-              {{ winner.label }}
+            <div v-if="winner !== null">
+              <div :key="winner.score + ' vs ' + loser.score">
+                <!-- class="animate__animated animate__heartBeat" -->
+                <div
+                  class="text-transparent bg-clip-text bg-gradient-to-br from-transparent to-black/10 text-5xl font-extrabold leading-none tracking-normal md:text-8xl md:tracking-tight"
+                  :class="winnerColor"
+                >
+                  {{ winner.label }}
+                </div>
+              </div>
             </div>
           </transition>
         </div>
@@ -107,6 +112,13 @@ export default {
         : this.firstTeam.score > this.secondTeam.score
         ? this.firstTeam
         : this.secondTeam
+    },
+    loser() {
+      return this.firstTeam.score === this.secondTeam.score
+        ? null
+        : this.firstTeam.score > this.secondTeam.score
+        ? this.secondTeam
+        : this.firstTeam
     },
     winnerColor() {
       return this.winner !== null
