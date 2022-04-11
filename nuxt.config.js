@@ -40,8 +40,6 @@ export default {
     '@nuxt/postcss8',
     // https://firebase.nuxtjs.org/guide/getting-started
     '@nuxtjs/firebase',
-    // https://pwa.nuxtjs.org/setup
-    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -49,6 +47,8 @@ export default {
     '@nuxtjs/dotenv',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // https://pwa.nuxtjs.org/setup
+    '@nuxtjs/pwa',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -85,6 +85,7 @@ export default {
     },
     manifest: {
       name: 'AE Integ - Teams War',
+      short_name: 'AE Integ - Teams War',
       lang: 'fr',
       display: 'minimal-ui',
       useWebmanifestExtension: false,
