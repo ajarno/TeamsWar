@@ -4,10 +4,10 @@
     class="sticky bottom-5 right-1/2 translate-x-1/4 max-w-[70%]"
   >
     <div
-      class="bg-gray-200 text-gray-800 text-xs rounded py-1 px-4 right-0 bottom-full shadow-sm active:bg-gray-300 active:shadow"
+      class="bg-gray-200 text-gray-800 text-sm rounded py-1 px-4 right-0 bottom-full shadow-sm active:bg-gray-300 active:shadow"
       @click="discard"
     >
-      Installer cette appli sur votre iPhone. Cliquez sur
+      Installez cette appli sur votre iPhone. Cliquez sur
       <apple-share class="w-4 h-4 inline text-sky-500/90" /> et choisissez "Sur
       l'écran d'accueil"
       <svg
