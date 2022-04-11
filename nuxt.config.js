@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -32,10 +34,13 @@ export default {
     '@nuxt/typescript-build',
     // https://tailwindcss.com/docs/guides/nuxtjs
     '@nuxt/postcss8',
+    // https://firebase.nuxtjs.org/guide/getting-started
+    '@nuxtjs/firebase',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/dotenv',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
@@ -44,6 +49,26 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
+  },
+
+  // Firebase module configuration : https://firebase.nuxtjs.org/guide/options
+  firebase: {
+    config: {
+      apiKey: process.env.API_KEY,
+      authDomain: process.env.AUTH_DOMAIN,
+      databaseURL: process.env.DATABASE_URL,
+      projectId: process.env.PROJECT_ID,
+      storageBucket: process.env.STORAGE_BUCKET,
+      messagingSenderId: process.env.MESSAGING_SENDER_ID,
+      appId: process.env.APP_ID,
+      measurementId: process.env.MEASUREMENT_ID,
+      databaseSecret: process.env.DATABASE_SECRET,
+    },
+    services: {
+      database: true,
+      performance: false,
+      analytics: false,
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -55,5 +80,17 @@ export default {
         autoprefixer: {},
       },
     },
+  },
+
+  env: {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID,
+    databaseSecret: process.env.DATABASE_SECRET,
   },
 }

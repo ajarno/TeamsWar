@@ -44,12 +44,12 @@
         >
           <div class="flex flex-col space-y-7 text-lg">
             <button
-              v-for="team in teams"
+              v-for="(team, index) in teams"
               :key="team.label"
               class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br hover:text-white dark:text-white focus:ring-4 focus:outline-none"
               :class="team.bgColorHover + ' ' + team.focusRing"
               type="button"
-              @click="++team.score"
+              @click="() => increaseScore(index)"
             >
               <span
                 class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
@@ -108,6 +108,8 @@ export default {
     return {
       leaveClassName: 'animate__animated animate__fadeOut',
       enterClassName: 'animate__animated animate__tada',
+      database: undefined,
+      scoresKey: undefined,
       teams: [
         {
           bgColor: 'bg-blue-600',
@@ -178,6 +180,39 @@ export default {
           this.enterClassName = 'animate__animated animate__tada'
         }
       },
+    },
+  },
+  mounted() {
+    this.defineDb()
+    this.onDbChange()
+  },
+  methods: {
+    defineDb() {
+      this.database = this.$fire.database.ref('scores')
+    },
+    onDbChange() {
+      try {
+        this.database.on('value', (snapshot) => {
+          this.scoresKey = snapshot.key
+          this.firstTeam.score = snapshot.toJSON().firstTeam
+          this.secondTeam.score = snapshot.toJSON().secondTeam
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async increaseScore(index) {
+      try {
+        const recentSnap = await this.database.once('value')
+        const update = {
+          firstTeam: recentSnap.val().firstTeam + 1,
+          secondTeam: recentSnap.val().secondTeam + 1,
+        }
+        index === 0 ? delete update.secondTeam : delete update.firstTeam
+        this.database.update(update)
+      } catch (e) {
+        console.error(e)
+      }
     },
   },
 }
