@@ -79,16 +79,19 @@ export default {
 
   pwa: {
     meta: {
-      nativeUI: true,
       lang: 'fr',
-      author: 'Anaïs Jarno',
+      mobileAppIOS: true,
+      appleStatusBarStyle: 'black-translucent',
+      name: 'AE Integ - Teams War',
+      viewport:
+        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
+      ogHost: process.env.PUBLISHED_DOMAIN,
+      nativeUI: true,
     },
     manifest: {
+      lang: 'fr',
       name: 'AE Integ - Teams War',
       short_name: 'AE Integ - Teams War',
-      lang: 'fr',
-      display: 'minimal-ui',
-      useWebmanifestExtension: false,
     },
   },
 
@@ -113,5 +116,6 @@ export default {
     appId: process.env.APP_ID,
     measurementId: process.env.MEASUREMENT_ID,
     databaseSecret: process.env.DATABASE_SECRET,
+    publishedDomain: process.env.PUBLISHED_DOMAIN,
   },
 }
