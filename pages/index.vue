@@ -60,6 +60,7 @@
             </div>
           </transition>
         </div>
+        <add-to-home-screen />
       </div>
     </div>
   </div>
@@ -70,6 +71,7 @@ import ProgressAdversityBar from '~/components/ProgressAdversityBar.vue'
 import VotingButton from '~/components/VotingButton.vue'
 import CurrentWinnerDisplay from '~/components/CurrentWinnerDisplay.vue'
 import EqualityDisplay from '~/components/EqualityDisplay.vue'
+import AddToHomeScreen from '~/components/mobile/AddToHomeScreen.vue'
 
 export default {
   name: 'IndexPage',
@@ -78,7 +80,8 @@ export default {
     VotingButton,
     CurrentWinnerDisplay,
     EqualityDisplay,
-  },
+    AddToHomeScreen
+},
   data() {
     return {
       leaveClassName: 'animate__animated animate__fadeOut',
@@ -130,7 +133,7 @@ export default {
       }, 0)
     },
     percentageWinner() {
-      return (this.winner.score / this.totalVotes) * 100
+      return Math.round((this.winner.score / this.totalVotes) * 100)
     },
   },
   watch: {

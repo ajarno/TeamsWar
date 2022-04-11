@@ -10,7 +10,7 @@
       {{ label }}
     </span>
     <span
-      class="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease text-lg"
+      class="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease text-2xl"
     >
       🍺
     </span>
