@@ -72,8 +72,7 @@ export default {
     },
     services: {
       database: true,
-      performance: false,
-      analytics: false,
+      analytics: true,
     },
   },
 
@@ -85,6 +84,7 @@ export default {
       name: 'AE Integ - Teams War',
       viewport:
         'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
+      theme_color: 'gray',
       ogHost: process.env.PUBLISHED_DOMAIN,
       nativeUI: true,
     },
@@ -92,6 +92,7 @@ export default {
       lang: 'fr',
       name: 'AE Integ - Teams War',
       short_name: 'AE Integ - Teams War',
+      offlineAnalytics: true,
     },
   },
 

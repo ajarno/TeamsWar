@@ -4,7 +4,7 @@
   >
     <div class="px-10 md:max-w-80%">
       <h1
-        class="mb-10 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight"
+        class="mb-10 text-4xl text-center font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight"
       >
         C'est qui la
         <span
@@ -19,51 +19,28 @@
         </span>
         promo ?
       </h1>
-      <div
-        class="relative w-full leading-tight font-medium text-white bg-gradient-to-l from-black/10 to-white/10 rounded-full h-5"
-        :class="secondTeam.score === 0 ? 'bg-gray-400' : secondTeam.bgColor"
-      >
-        <span class="absolute w-full pr-3 text-right">
-          {{ secondTeam.score }}
-        </span>
-        <div
-          class="absolute bg-gradient-to-r h-5 from-white/5 to-white/20 transition-all duration-500 text-left pl-3"
-          :class="
-            (percentageFirst > 90 ? 'rounded-full ' : 'rounded-l-full ') +
-            (firstTeam.score === 0 ? 'bg-gray-400' : firstTeam.bgColor)
-          "
-          :style="percentageFirstWidth"
-        >
-          {{ firstTeam.score }}
-        </div>
-      </div>
+      <progress-adversity-bar
+        :first-team-color="firstTeam.bgColor"
+        :second-team-color="secondTeam.bgColor"
+        :first-team-score="firstTeam.score"
+        :second-team-score="secondTeam.score"
+      />
       <div class="w-full flex flex-wrap-reverse mt-12">
         <div
-          class="w-10/12 md:w-2/5 lg:w-1/3 opacity-80 hover:opacity-90 tansition-all duration-500 bg-gray-50 text-gray-700 font-bold leading-none tracking-normal md:tracking-tight px-7 py-8 h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden"
+          class="w-full md:w-2/5 lg:w-1/3 opacity-80 hover:opacity-90 tansition-all duration-500 bg-gray-50 text-gray-700 font-bold leading-none tracking-normal md:tracking-tight px-7 py-8 h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden"
         >
           <div class="flex flex-col space-y-7 text-lg">
-            <button
+            <voting-button
               v-for="(team, index) in teams"
-              :key="team.label"
-              class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br hover:text-white dark:text-white focus:ring-4 focus:outline-none"
+              :key="team.index"
+              :index="index"
+              :label="team.label"
               :class="team.bgColorHover + ' ' + team.focusRing"
-              type="button"
-              @click="() => increaseScore(index)"
-            >
-              <span
-                class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
-              >
-                {{ team.label }}
-              </span>
-              <span
-                class="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease text-lg"
-              >
-                🍺
-              </span>
-            </button>
+              @increaseScore="increaseScore"
+            />
           </div>
         </div>
-        <div class="w-10/12 md:w-3/5 lg:w-2/3 text-right mb-5 md:mb-0">
+        <div class="w-full md:w-3/5 lg:w-2/3 text-right mb-8 md:mb-0">
           <transition
             mode="out-in"
             :enter-active-class="enterClassName"
@@ -71,26 +48,14 @@
           >
             <div :key="winner && winner.label">
               <div v-if="winner !== null">
-                <!-- class="animate__animated animate__heartBeat" -->
-                <div
-                  class="text-transparent bg-clip-text bg-gradient-to-br from-transparent to-black/10 text-5xl font-extrabold leading-none tracking-normal md:text-8xl md:tracking-tight"
-                  :class="winnerColor"
-                >
-                  {{ winner.label }}
-                </div>
-                <span
-                  class="font-bold text-gray-700 text-2xl leading-none tracking-normal md:text-4xl md:tracking-tight"
-                >
-                  {{ Math.round((winner.score / totalVotes) * 100) }} %
-                </span>
+                <current-winner-display
+                  :extra-class="winnerColor"
+                  :label="winner.label"
+                  :percentage-winner="percentageWinner"
+                />
               </div>
               <div v-else>
-                <div
-                  class="text-transparent bg-clip-text bg-gradient-to-br from-transparent to-black/10 text-4xl font-extrabold !leading-loose tracking-normal md:text-6xl md:tracking-tight"
-                  :class="winnerColor"
-                >
-                  Égalité
-                </div>
+                <equality-display :class="winnerColor" />
               </div>
             </div>
           </transition>
@@ -101,8 +66,19 @@
 </template>
 
 <script>
+import ProgressAdversityBar from '~/components/ProgressAdversityBar.vue'
+import VotingButton from '~/components/VotingButton.vue'
+import CurrentWinnerDisplay from '~/components/CurrentWinnerDisplay.vue'
+import EqualityDisplay from '~/components/EqualityDisplay.vue'
+
 export default {
   name: 'IndexPage',
+  components: {
+    ProgressAdversityBar,
+    VotingButton,
+    CurrentWinnerDisplay,
+    EqualityDisplay,
+  },
   data() {
     return {
       leaveClassName: 'animate__animated animate__fadeOut',
@@ -143,13 +119,6 @@ export default {
         ? this.firstTeam
         : this.secondTeam
     },
-    loser() {
-      return this.firstTeam.score === this.secondTeam.score
-        ? null
-        : this.firstTeam.score > this.secondTeam.score
-        ? this.secondTeam
-        : this.firstTeam
-    },
     winnerColor() {
       return this.winner !== null
         ? this.winner.bgColor
@@ -160,11 +129,8 @@ export default {
         return accumulator + team.score
       }, 0)
     },
-    percentageFirst() {
-      return (this.firstTeam.score / this.totalVotes) * 100
-    },
-    percentageFirstWidth() {
-      return `width: ${this.percentageFirst}%`
+    percentageWinner() {
+      return (this.winner.score / this.totalVotes) * 100
     },
   },
   watch: {
