@@ -2,7 +2,6 @@
   <div
     class="h-full mx-auto flex flex-col justify-center items-center bg-gray-100"
   >
-    <canvas id="canvas"></canvas>
     <div class="px-10 md:max-w-80%">
       <h1
         class="mb-10 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight"
