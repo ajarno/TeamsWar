@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Teams War',
+    title: 'AE Integ - Teams War',
     htmlAttrs: {
       lang: 'fr',
     },
@@ -40,6 +40,8 @@ export default {
     '@nuxt/postcss8',
     // https://firebase.nuxtjs.org/guide/getting-started
     '@nuxtjs/firebase',
+    // https://pwa.nuxtjs.org/setup
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -72,6 +74,20 @@ export default {
       database: true,
       performance: false,
       analytics: false,
+    },
+  },
+
+  pwa: {
+    meta: {
+      nativeUI: true,
+      lang: 'fr',
+      author: 'Anaïs Jarno',
+    },
+    manifest: {
+      name: 'AE Integ - Teams War',
+      lang: 'fr',
+      display: 'minimal-ui',
+      useWebmanifestExtension: false,
     },
   },
 
