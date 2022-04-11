@@ -43,7 +43,7 @@ export default {
 
     // Checks if should display install popup notification:
     if (isIos() && !isInStandaloneMode()) {
-      this.setState({ showInstallMessage: true })
+      this.showInstallMessage = true
     }
   },
 }
