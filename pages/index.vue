@@ -60,8 +60,8 @@
             </div>
           </transition>
         </div>
-        <add-to-home-screen />
       </div>
+        <add-to-home-screen />
     </div>
   </div>
 </template>

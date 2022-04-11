@@ -1,34 +1,50 @@
 <template>
-  <button v-if="display" class="add-button">Add to home screen</button>
+  <div
+    v-if="showInstallMessage"
+    class="absolute bottom-5 right-1/2 translate-x-1/2"
+  >
+    <div
+      class="bg-gray-200 text-gray-800 text-xs rounded py-1 px-4 right-0 bottom-full shadow-sm"
+    >
+      Installer cette appli sur votre iPhone. Cliquez sur
+      <apple-share class="w-4 h-4 inline text-sky-500/90" /> et choisissez "Sur
+      l'écran d'accueil"
+      <svg
+        class="absolute text-gray-200 h-4 w-full left-0 top-full"
+        x="0px"
+        y="0px"
+        viewBox="0 0 255 255"
+        xml:space="preserve"
+      >
+        <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
+      </svg>
+    </div>
+  </div>
 </template>
 
 <script>
+import AppleShare from '../svg/AppleShare.vue'
 export default {
+  components: { AppleShare },
   data() {
     return {
-      deferredPrompt: undefined,
-      display: false,
+      showInstallMessage: false,
     }
   },
   mounted() {
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault()
-      this.deferredPrompt = e
-      this.display = true
-    })
-  },
-  prompt() {
-    this.display = false
-    this.deferredPrompt.prompt()
-    // Wait for the user to respond to the prompt
-    this.deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt')
-      } else {
-        console.log('User dismissed the A2HS prompt')
-      }
-      deferredPrompt = undefined
-    })
+    // Detects if device is on iOS
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase()
+      return /iphone|ipad|ipod/.test(userAgent)
+    }
+    // Detects if device is in standalone mode
+    const isInStandaloneMode = () =>
+      'standalone' in window.navigator && window.navigator.standalone
+
+    // Checks if should display install popup notification:
+    if (isIos() && !isInStandaloneMode()) {
+      this.setState({ showInstallMessage: true })
+    }
   },
 }
 </script>
