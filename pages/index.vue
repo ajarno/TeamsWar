@@ -2,6 +2,7 @@
   <div
     class="h-full mx-auto flex flex-col justify-center items-center bg-gray-100"
   >
+    <settings-button class="absolute top-2 right-2" />
     <div class="px-10 md:max-w-80%">
       <h1
         class="mb-10 text-4xl text-center font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight"
@@ -77,6 +78,7 @@ import CurrentWinnerDisplay from '~/components/CurrentWinnerDisplay.vue'
 import EqualityDisplay from '~/components/EqualityDisplay.vue'
 import AddToHomeScreen from '~/components/mobile/AddToHomeScreen.vue'
 import WinnerAnimation from '~/components/animations/WinnerAnimation.vue'
+import SettingsButton from '~/components/navigation/SettingsButton.vue'
 
 export default {
   name: 'IndexPage',
@@ -87,13 +89,13 @@ export default {
     EqualityDisplay,
     AddToHomeScreen,
     WinnerAnimation,
+    SettingsButton,
   },
   data() {
     return {
       leaveClassName: 'animate__animated animate__fadeOut',
       enterClassName: 'animate__animated animate__tada',
       database: undefined,
-      scoresKey: undefined,
       displayWinner: false,
       question: {
         beginning: '',
@@ -208,7 +210,6 @@ export default {
     onDbChange() {
       try {
         this.database.on('value', (snapshot) => {
-          this.scoresKey = snapshot.key
           this.firstTeam.score = snapshot.toJSON().firstTeam
           this.secondTeam.score = snapshot.toJSON().secondTeam
         })
