@@ -6,7 +6,7 @@
       <h1
         class="mb-10 text-4xl text-center font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight"
       >
-        C'est qui la
+        {{ question.beginning }}
         <span
           class="transition-colors ease-in-out duration-1000 text-transparent bg-clip-text"
           :class="
@@ -16,9 +16,9 @@
               : winnerBgColor
           "
         >
-          meilleure
+          {{ question.highlighted }}
         </span>
-        promo ?
+        {{ question.ending }}
       </h1>
       <progress-adversity-bar
         :first-team-color="firstTeam.bgColor"
@@ -95,6 +95,11 @@ export default {
       database: undefined,
       scoresKey: undefined,
       displayWinner: false,
+      question: {
+        beginning: '',
+        highlighted: '',
+        ending: '',
+      },
       teams: [
         {
           color: 'blue',
@@ -103,7 +108,7 @@ export default {
             'from-blue-500 to-blue-700 group-hover:from-blue-500 group-hover:to-blue-700',
           focusRing: 'focus:ring-blue-300 dark:focus:ring-blue-800',
           score: 0,
-          label: 'Promo 22',
+          label: '',
         },
         {
           color: 'red',
@@ -112,7 +117,7 @@ export default {
             'from-red-500 to-red-700 group-hover:from-red-500 group-hover:to-red-700',
           focusRing: 'focus:ring-red-300 dark:focus:ring-red-800',
           score: 0,
-          label: 'Promo 24',
+          label: '',
         },
       ],
     }
@@ -171,11 +176,32 @@ export default {
       }
     },
   },
+  created() {
+    this.getInitialValuesFromStaticDb()
+  },
   mounted() {
     this.defineDb()
     this.onDbChange()
   },
   methods: {
+    getInitialValuesFromStaticDb() {
+      const database = this.$fire.database
+      database
+        .ref('question')
+        .once('value')
+        .then((snapshot) => {
+          this.question.beginning = snapshot.toJSON().beginning
+          this.question.highlighted = snapshot.toJSON().highlighted
+          this.question.ending = snapshot.toJSON().ending
+        })
+      database
+        .ref('labels')
+        .once('value')
+        .then((snapshot) => {
+          this.firstTeam.label = snapshot.toJSON().firstTeam
+          this.secondTeam.label = snapshot.toJSON().secondTeam
+        })
+    },
     defineDb() {
       this.database = this.$fire.database.ref('scores')
     },
