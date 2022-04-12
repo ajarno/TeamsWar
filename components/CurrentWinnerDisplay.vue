@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import AnimatedNumber from './AnimatedNumber.vue'
+import AnimatedNumber from './animations/AnimatedNumber.vue'
 export default {
   components: { AnimatedNumber },
   props: {

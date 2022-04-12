@@ -61,6 +61,9 @@
           </transition>
         </div>
       </div>
+      <transition leave-active-class="animate__animated animate__backOutUp">
+        <winner-animation v-if="displayWinner" :color="winner.color" />
+      </transition>
       <add-to-home-screen />
     </div>
   </div>
@@ -72,6 +75,7 @@ import VotingButton from '~/components/VotingButton.vue'
 import CurrentWinnerDisplay from '~/components/CurrentWinnerDisplay.vue'
 import EqualityDisplay from '~/components/EqualityDisplay.vue'
 import AddToHomeScreen from '~/components/mobile/AddToHomeScreen.vue'
+import WinnerAnimation from '~/components/animations/WinnerAnimation.vue'
 
 export default {
   name: 'IndexPage',
@@ -81,6 +85,7 @@ export default {
     CurrentWinnerDisplay,
     EqualityDisplay,
     AddToHomeScreen,
+    WinnerAnimation,
   },
   data() {
     return {
@@ -88,8 +93,10 @@ export default {
       enterClassName: 'animate__animated animate__tada',
       database: undefined,
       scoresKey: undefined,
+      displayWinner: false,
       teams: [
         {
+          color: 'blue',
           bgColor: 'bg-blue-600',
           bgColorHover:
             'from-blue-500 to-blue-700 group-hover:from-blue-500 group-hover:to-blue-700',
@@ -98,6 +105,7 @@ export default {
           label: 'Promo 22',
         },
         {
+          color: 'red',
           bgColor: 'bg-red-600',
           bgColorHover:
             'from-red-500 to-red-700 group-hover:from-red-500 group-hover:to-red-700',
@@ -147,6 +155,10 @@ export default {
         } else {
           this.leaveClassName = 'animate__animated animate__fadeOut'
           this.enterClassName = 'animate__animated animate__tada'
+          this.displayWinner = true
+          setTimeout(() => {
+            this.displayWinner = false
+          }, 7000)
         }
       },
     },
