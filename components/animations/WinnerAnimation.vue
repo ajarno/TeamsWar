@@ -34,6 +34,7 @@ export default {
           this.color === 'red'
             ? redKingAnimation.default
             : blueKingAnimation.default,
+        renderer: 'canvas',
       }
     },
   },
