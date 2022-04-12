@@ -40,6 +40,8 @@ export default {
     '@nuxt/postcss8',
     // https://firebase.nuxtjs.org/guide/getting-started
     '@nuxtjs/firebase',
+    // https://github.com/ivodolenc/nuxt-gsap-module#readme
+    'nuxt-gsap-module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -95,6 +97,8 @@ export default {
       offlineAnalytics: true,
     },
   },
+
+  gsap: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

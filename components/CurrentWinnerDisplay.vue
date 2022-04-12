@@ -9,13 +9,15 @@
     <span
       class="font-bold text-gray-700 text-3xl leading-none tracking-normal md:text-4xl md:tracking-tight"
     >
-      {{ percentageWinner }} %
+      <animated-number :number="percentageWinner" />%
     </span>
   </div>
 </template>
 
 <script>
+import AnimatedNumber from './AnimatedNumber.vue'
 export default {
+  components: { AnimatedNumber },
   props: {
     label: { type: String, required: true },
     percentageWinner: { type: Number, required: true },

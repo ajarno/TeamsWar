@@ -61,7 +61,7 @@
           </transition>
         </div>
       </div>
-        <add-to-home-screen />
+      <add-to-home-screen />
     </div>
   </div>
 </template>
@@ -80,8 +80,8 @@ export default {
     VotingButton,
     CurrentWinnerDisplay,
     EqualityDisplay,
-    AddToHomeScreen
-},
+    AddToHomeScreen,
+  },
   data() {
     return {
       leaveClassName: 'animate__animated animate__fadeOut',
@@ -133,7 +133,8 @@ export default {
       }, 0)
     },
     percentageWinner() {
-      return Math.round((this.winner.score / this.totalVotes) * 100)
+      const percentage = (this.winner.score / this.totalVotes) * 100
+      return Math.round(percentage * 100) / 100
     },
   },
   watch: {
