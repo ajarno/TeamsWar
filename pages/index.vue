@@ -11,8 +11,9 @@
           class="transition-colors ease-in-out duration-1000 text-transparent bg-clip-text"
           :class="
             winner !== null
-              ? 'bg-gradient-to-br from-transparent to-black/10 ' + winnerColor
-              : winnerColor
+              ? 'bg-gradient-to-br from-transparent to-black/10 ' +
+                winnerBgColor
+              : winnerBgColor
           "
         >
           meilleure
@@ -49,13 +50,13 @@
             <div :key="winner && winner.label">
               <div v-if="winner !== null">
                 <current-winner-display
-                  :extra-class="winnerColor"
+                  :extra-class="winnerBgColor"
                   :label="winner.label"
                   :percentage-winner="percentageWinner"
                 />
               </div>
               <div v-else>
-                <equality-display :class="winnerColor" />
+                <equality-display :class="winnerBgColor" />
               </div>
             </div>
           </transition>
@@ -130,10 +131,13 @@ export default {
         ? this.firstTeam
         : this.secondTeam
     },
-    winnerColor() {
+    winnerBgColor() {
       return this.winner !== null
         ? this.winner.bgColor
         : 'bg-gray-800 dark:bg-gray-100'
+    },
+    winnerColor() {
+      return this.winner !== null ? this.winner.color : null
     },
     totalVotes() {
       return this.teams.reduce((accumulator, team) => {
@@ -155,12 +159,16 @@ export default {
         } else {
           this.leaveClassName = 'animate__animated animate__fadeOut'
           this.enterClassName = 'animate__animated animate__tada'
-          this.displayWinner = true
-          setTimeout(() => {
-            this.displayWinner = false
-          }, 7000)
         }
       },
+    },
+    winnerColor(value) {
+      if (value !== null) {
+        this.displayWinner = true
+        setTimeout(() => {
+          this.displayWinner = false
+        }, 7000)
+      }
     },
   },
   mounted() {
