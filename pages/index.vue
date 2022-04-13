@@ -2,7 +2,23 @@
   <div
     class="h-full mx-auto flex flex-col justify-center items-center bg-gray-100"
   >
-    <settings-button class="absolute top-2 right-2" />
+    <navigation-button
+      class="!opacity-60 absolute top-2 right-2"
+      @navigate="openModal"
+    >
+      <cog-icon class="opacity-40 w-5 h-5" fill="currentColor" />
+    </navigation-button>
+    <transition
+      enter-active-class="animate__animated animate__fadeInRightBig"
+      leave-active-class="animate__animated animate__zoomOutRight"
+    >
+      <modal-component v-if="isModalActive" @closeModal="closeModal">
+        <settings-view
+          @applyChanges="applyInitialChanges"
+          @reset="applyInitialChanges"
+        />
+      </modal-component>
+    </transition>
     <div class="px-10 md:max-w-80%">
       <h1
         class="mb-10 text-4xl text-center font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight"
@@ -78,7 +94,10 @@ import CurrentWinnerDisplay from '~/components/CurrentWinnerDisplay.vue'
 import EqualityDisplay from '~/components/EqualityDisplay.vue'
 import AddToHomeScreen from '~/components/mobile/AddToHomeScreen.vue'
 import WinnerAnimation from '~/components/animations/WinnerAnimation.vue'
-import SettingsButton from '~/components/navigation/SettingsButton.vue'
+import NavigationButton from '~/components/navigation/NavigationButton.vue'
+import CogIcon from '~/components/svg/CogIcon.vue'
+import SettingsView from '~/components/view/SettingsView.vue'
+import ModalComponent from '~/components/navigation/ModalComponent.vue'
 
 export default {
   name: 'IndexPage',
@@ -89,10 +108,14 @@ export default {
     EqualityDisplay,
     AddToHomeScreen,
     WinnerAnimation,
-    SettingsButton,
+    NavigationButton,
+    CogIcon,
+    SettingsView,
+    ModalComponent,
   },
   data() {
     return {
+      isModalActive: false,
       leaveClassName: 'animate__animated animate__fadeOut',
       enterClassName: 'animate__animated animate__tada',
       database: undefined,
@@ -229,6 +252,16 @@ export default {
       } catch (e) {
         console.error(e)
       }
+    },
+    openModal() {
+      this.isModalActive = true
+    },
+    closeModal() {
+      this.isModalActive = false
+    },
+    applyInitialChanges() {
+      this.closeModal()
+      this.getInitialValuesFromStaticDb()
     },
   },
 }
