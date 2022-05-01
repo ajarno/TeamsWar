@@ -1,11 +1,11 @@
 <template>
   <button
-    class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br hover:text-white dark:text-white focus:ring-4 focus:outline-none"
+    class="hover:scale-110 transition-all duration-300 w-full relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br focus:ring-4 focus:outline-none"
     type="button"
     @click="() => increaseScore(index)"
   >
     <span
-      class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white bg-opacity-90 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+      class="w-full relative px-5 py-2.5 transition-all duration-150 ease-in bg-white bg-opacity-90 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 text-gray-900 group-hover:text-white dark:text-white"
     >
       {{ label }}
     </span>
