@@ -1,6 +1,6 @@
 <template>
   <lottie
-    class="h-full w-full fixed top-0 left-0 mx-auto my-0 overflow-hidden"
+    class="h-full w-full fixed top-0 left-0 mx-auto my-0 overflow-hidden z-40"
     :options="lottieOptions"
     @animCreated="handleAnimation"
   />
