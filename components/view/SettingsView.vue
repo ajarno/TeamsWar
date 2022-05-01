@@ -59,11 +59,12 @@
     </button>
     <button
       class="w-full px-5 py-2.5 relative rounded group overflow-hidden font-medium bg-gray-200 text-gray-600 hover:text-gray-100 transition-colors duration-300 inline-block"
+      @click="reset"
     >
       <span
         class="absolute bottom-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-gray-600 group-hover:h-full opacity-90"
       ></span>
-      <span class="relative" @click="reset"> Réinitialiser les scores </span>
+      <span class="relative"> Réinitialiser les scores </span>
     </button>
   </div>
 </template>

@@ -13,10 +13,7 @@
       leave-active-class="animate__animated animate__zoomOutRight"
     >
       <modal-component v-if="isModalActive" @closeModal="closeModal">
-        <settings-view
-          @applyChanges="applyInitialChanges"
-          @reset="applyInitialChanges"
-        />
+        <settings-view @applyChanges="applyInitialChanges" @reset="reset" />
       </modal-component>
     </transition>
     <div class="px-10 md:max-w-80%">
@@ -262,6 +259,11 @@ export default {
     applyInitialChanges() {
       this.closeModal()
       this.getInitialValuesFromStaticDb()
+    },
+    reset() {
+      this.getInitialValuesFromStaticDb()
+      this.$nuxt.refresh()
+      this.closeModal()
     },
   },
 }

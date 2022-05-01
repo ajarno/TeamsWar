@@ -1,6 +1,6 @@
 <template>
   <button
-    class="hover:scale-110 transition-all duration-300 w-full relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br focus:ring-4 focus:outline-none"
+    class="z-50 hover:scale-110 transition-all duration-300 w-full relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br focus:ring-4 focus:outline-none"
     type="button"
     @click="() => increaseScore(index)"
   >
